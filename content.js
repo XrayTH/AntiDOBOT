@@ -14,7 +14,12 @@
     [MODES.NEUVILLETTE]: "https://cdnb.artstation.com/p/assets/images/images/069/691/095/original/anart-no-2.gif?1700748116"
   };
 
-  const TARGET_IDS = ["avatar_active_image_small", "avatar_active_image"];
+  const TARGET_SELECTORS = [
+  "#avatar_active_image_small",
+  "#avatar_active_image",
+  ".pop-up-avatar"
+];
+
 
   function getSettings(cb) {
     chrome.storage.sync.get({ [MODE_KEY]: MODES.NOTHING, [CUSTOM_URL_KEY]: "" }, (data) => {
@@ -52,11 +57,12 @@
   }
 
   function applyMode(mode, customUrl) {
-    TARGET_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      applyModeToElement(el, mode, customUrl);
-    });
-  }
+  const elements = document.querySelectorAll(TARGET_SELECTORS.join(", "));
+
+  elements.forEach(el => {
+    applyModeToElement(el, mode, customUrl);
+  });
+}
 
   function scanAndApply() {
     getSettings((mode, customUrl) => applyMode(mode, customUrl));
