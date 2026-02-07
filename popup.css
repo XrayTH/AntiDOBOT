@@ -1,0 +1,45 @@
+﻿:root {
+  color-scheme: light;
+  font-family: "Fira Sans", "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 12px 14px 14px;
+  min-width: 220px;
+  background: #f6f3ef;
+  color: #1d1c1a;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+form {
+  display: grid;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #e2dcd4;
+  cursor: pointer;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.option:hover {
+  border-color: #b99a6d;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+input[type="radio"] {
+  accent-color: #9b6b2f;
+}

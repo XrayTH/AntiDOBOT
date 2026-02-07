@@ -1,0 +1,18 @@
+﻿{
+  "manifest_version": 3,
+  "name": "AntiDOBOT",
+  "version": "1.0.0",
+  "description": "Oculta o reemplaza el avatar del chatbot en el campus universitario.",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "AntiDOBOT",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
