@@ -44,7 +44,8 @@ El contenido se guarda en `chrome.storage.sync` y se aplica automáticamente.
 - Por defecto, la extensión corre en todas las páginas (`"<all_urls>"`). Si quieres restringirla a un dominio específico, edita `manifest.json` y reemplaza `"<all_urls>"` por el dominio del campus.
 
 ## Licencia
-Este proyecto se distribuye bajo la licencia **MIT**.
+- Este proyecto se distribuye bajo la licencia **MIT**.
+- El icono de la extensión fue creado originalmente por **[Flowicon](https://www.flaticon.es/autores/flowicon)**, yo solo modifique un poco. Este icono esta bajo la licencia de **[Flaticon](https://www.flaticon.es/legal)**.
 
 ## Descargo de responsabilidad
 Este proyecto **no tiene relación alguna** con la UNAD, su administración ni con los desarrolladores del campus virtual.  
