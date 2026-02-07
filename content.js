@@ -1,26 +1,28 @@
 ﻿(() => {
   const MODE_KEY = "mode";
+  const CUSTOM_URL_KEY = "customUrl";
   const MODES = {
     NOTHING: "nothing",
     DELETE: "delete",
     RAIDEN: "raiden",
-    NEUVILLETTE: "neuvillette"
+    NEUVILLETTE: "neuvillette",
+    CUSTOM: "custom"
   };
 
   const SRCS = {
-    [MODES.RAIDEN]: "https://www.icegif.com/wp-content/uploads/2022/04/icegif-750.gif",
+    [MODES.RAIDEN]: "https://cdn.imgchest.com/files/470f8541052f.gif",
     [MODES.NEUVILLETTE]: "https://cdnb.artstation.com/p/assets/images/images/069/691/095/original/anart-no-2.gif?1700748116"
   };
 
   const TARGET_IDS = ["avatar_active_image_small", "avatar_active_image"];
 
-  function getMode(cb) {
-    chrome.storage.sync.get({ [MODE_KEY]: MODES.NOTHING }, (data) => {
-      cb(data[MODE_KEY]);
+  function getSettings(cb) {
+    chrome.storage.sync.get({ [MODE_KEY]: MODES.NOTHING, [CUSTOM_URL_KEY]: "" }, (data) => {
+      cb(data[MODE_KEY], data[CUSTOM_URL_KEY]);
     });
   }
 
-  function applyModeToElement(el, mode) {
+  function applyModeToElement(el, mode, customUrl) {
     if (!el) return;
 
     if (!el.dataset.originalSrc && el.getAttribute("src")) {
@@ -39,20 +41,25 @@
       return;
     }
 
+    if (mode === MODES.CUSTOM && customUrl) {
+      el.setAttribute("src", customUrl);
+      return;
+    }
+
     if (mode === MODES.NOTHING && el.dataset.originalSrc) {
       el.setAttribute("src", el.dataset.originalSrc);
     }
   }
 
-  function applyMode(mode) {
+  function applyMode(mode, customUrl) {
     TARGET_IDS.forEach((id) => {
       const el = document.getElementById(id);
-      applyModeToElement(el, mode);
+      applyModeToElement(el, mode, customUrl);
     });
   }
 
   function scanAndApply() {
-    getMode((mode) => applyMode(mode));
+    getSettings((mode, customUrl) => applyMode(mode, customUrl));
   }
 
   const observer = new MutationObserver(() => {
@@ -66,8 +73,12 @@
 
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== "sync") return;
-    if (!changes[MODE_KEY]) return;
-    applyMode(changes[MODE_KEY].newValue);
+    const modeChange = changes[MODE_KEY];
+    const customChange = changes[CUSTOM_URL_KEY];
+
+    if (!modeChange && !customChange) return;
+
+    getSettings((mode, customUrl) => applyMode(mode, customUrl));
   });
 
   if (document.readyState === "loading") {
